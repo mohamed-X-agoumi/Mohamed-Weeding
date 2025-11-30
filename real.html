@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Wedding Invitation | دعوة زفاف | Invitación de Boda</title>
+    <!-- Combined Font Importation -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600&family=Great+Vibes&family=Aref+Ruqaa:wght@700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Importation des icônes Lucide pour l'icône de langue -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root{
+            --bg: #e5e5e5;
+            --card: #d9d9d9;
+            --text: #2c2c2c;
+            --muted: #6f6f6f;
+            --accent: #264653; /* Dark Teal */
+            --gold: #b08c3a; /* Deep Gold */
+            --border: #c9c9c9;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        html,body{
+            height:100%;
+            margin:0;
+            font-family: 'Montserrat', sans-serif; /* Default Latin font */
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* --- CENTERING THE BOX --- */
+        .wrap{
+            min-height:100vh;
+            display:flex;
+            flex-direction: column;
+            align-items:center;
+            justify-content:center;
+            padding:24px;
+        }
+
+        .card{
+            width:100%;
+            max-width:640px;
+            background:var(--card);
+            border-radius:12px;
+            padding: 0;
+            box-shadow: 0 8px 30px var(--shadow);
+            border:1px solid var(--border);
+            text-align:center;
+            box-sizing:border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Container for text content to add padding back inside */
+        .card-content {
+            padding: 20px 36px;
+            box-sizing: border-box;
+        }
+
+        /* --- DÉCORATIONS (Olive Branches) --- */
+        .header-decoration, .footer-decoration {
+            width: 100%;
+            height: 140px; 
+            background-image: url('https://static.vecteezy.com/system/resources/previews/047/073/668/large_2x/olive-branch-no-fruit-with-green-leaves-watercolor-botanical-floral-seamless-border-pattern-hand-drawn-nature-leaf-illustration-for-food-oil-label-paper-wallpaper-packaging-on-isolated-background-png.png');
+            background-repeat: repeat-x;
+            background-position: center bottom;
+            background-size: auto 100%;
+            display: block;
+            opacity: 0.85;
+            z-index: 1;
+        }
+        .header-decoration {
+            transform: rotate(180deg);
+        }
+        .footer-decoration {
+            transform: none;
+        }
+
+        /* --- LANGUAGE TOGGLE ICON --- */
+        #language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--accent); 
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
+        #language-toggle:hover {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* --- TYPOGRAPHY (Latin Default) --- */
+        .bismillah{
+            font-family: 'Aref Ruqaa', serif; 
+            font-size: 40px;
+            color: var(--gold);
+            margin-bottom: 25px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .message-body{
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--text);
+            margin-bottom: 18px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* --- BASE NAME BADGE --- */
+        .name-badge-container{
+            display: inline-block;
+            padding: 30px 50px 10px 50px; 
+            margin: 40px auto;
+            min-width: 200px; 
+            transition: all 0.5s ease-in-out; 
+            box-sizing: border-box;
+            background-color: var(--card); 
+            position: relative; 
+            overflow: visible; /* CRITICAL: To allow first-name to float outside */
+            z-index: 2; 
+        }
+        
+        /* ------------------------------------------- */
+        /* --- KEYFRAMES FOR DYNAMIC NAMES --- */
+        /* ------------------------------------------- */
+        @keyframes float-subtle {
+            0% { transform: translate(-50%, 0); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            50% { transform: translate(-50%, -5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+            100% { transform: translate(-50%, 0); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        }
+
+        @keyframes first-name-border-blend {
+            from { border-color: var(--gold); }
+            to { border-color: var(--accent); }
+        }
+        
+        /* --- FLOATING FIRST NAME --- */
+        .first-name{
+            position: absolute;
+            top: -50px; 
+            left: 50%;
+            transform: translateX(-50%); /* Base transform */
+            padding: 5px 24px;
+            background: #fff8f0;
+            /* Border color is now animated */
+            border-width: 3px; 
+            border-style: solid;
+            border-color: var(--gold); /* Initial color */
+            border-radius: 10px;
+            font-size: 42px;
+            font-weight: 400; 
+            color: var(--accent);
+            white-space: nowrap;
+            /* Box shadow and vertical position are animated by float-subtle */
+            z-index: 5; 
+            transition: all 0.5s ease-in-out; 
+            
+            /* APPLY DYNAMIC ANIMATIONS */
+            animation: 
+                float-subtle 1s infinite ease-in-out alternate, /* Floating effect */
+                first-name-border-blend 1s infinite alternate ease-in-out; /* Border color blend */
+        }
+
+        .last-name{
+            display: block;
+            margin-top: 10px; 
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            text-shadow: 0 2px 2px rgba(0,0,0,0.15);
+            position: relative; 
+            z-index: 3;
+        }
+        
+        /* Default Latin Name Fonts */
+        html[dir='ltr'] .first-name { font-family: 'Great Vibes', cursive; }
+        html[dir='ltr'] .last-name { font-family: 'Playfair Display', serif; }
+        
+        
+        /* ========================================================== */
+        /* --- FIXED STYLE 10: Bordure Bicolore Lent --- */
+        /* ========================================================== */
+        @keyframes two-tone-blend {
+            from { border-color: var(--accent); }
+            to { border-color: var(--gold); }
+        }
+        .style-10 {
+            border: 4px solid var(--accent);
+            border-radius: 20px;
+            background: #fff8f0;
+            animation: two-tone-blend 8s infinite alternate ease-in-out;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        /* ========================================================== */
+        /* --- END DYNAMIC FRAME STYLES --- */
+        /* ========================================================== */
+        
+        /* Details Box styles */
+        .details-box{
+            margin-top: 20px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 22px 0;
+        }
+
+        .schedule-title{
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .schedule-explainer{
+            font-size: 14px;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .time-slot{
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border);
+            color: var(--text);
+            font-size: 15px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .time-label{ 
+            color: var(--gold); 
+            font-weight: 700;
+            font-family: 'Playfair Display', serif; 
+        }
+
+        .location{
+            margin-top: 25px;
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .location-title {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- RTL SPECIFIC OVERRIDES (Arabic) --- */
+        html[dir='rtl'] body { font-family: 'Amiri', serif; }
+        html[dir='rtl'] #content-ar { direction: rtl; }
+        html[dir='rtl'] .message-body,
+        html[dir='rtl'] .location,
+        html[dir='rtl'] .details-box > div { text-align: center; }
+
+        /* Arabic Name Fonts */
+        html[dir='rtl'] .first-name {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 48px;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+        html[dir='rtl'] .last-name {
+            font-family: 'Amiri', serif;
+            font-size: 28px;
+            letter-spacing: 1px;
+            text-transform: none;
+        }
+        
+        /* Arabic Schedule/Details Fonts */
+        html[dir='rtl'] .schedule-title {
+            font-family: 'Aref Ruqaa', serif;
+            text-transform: none;
+        }
+        
+        html[dir='rtl'] .location-title,
+        html[dir='rtl'] .time-label {
+            font-family: 'Amiri', serif;
+            font-size: 16px;
+            text-transform: none;
+        }
+        
+        /* RTL Time Slot Order Adjustment */
+        html[dir='rtl'] .time-slot {
+            width: 85%;
+            margin: 0 auto;
+            direction: rtl; 
+        }
+        html[dir='rtl'] .time-slot > .time-label { order: 1; }
+        html[dir='rtl'] .time-slot > span:not(.time-label) { order: 2; font-family: 'Amiri', serif; }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width:520px){
+            .card-content { padding: 20px 18px; }
+            
+            /* Smaller floating name on mobile */
+            .first-name{
+                top: -30px; 
+                font-size: 34px;
+                padding: 3px 18px;
+            }
+            .last-name{ 
+                font-size: 22px; 
+                letter-spacing: 2px; 
+                margin-top: 5px; 
+            }
+            .name-badge-container { 
+                padding: 20px 30px 10px 30px; 
+            }
+            
+            /* Disable flex ordering on mobile column layout */
+            .time-slot{ flex-direction: column; gap: 6px; text-align: center; width: 100%; }
+            .time-slot > * { order: initial !important; } 
+            
+            #language-toggle { top: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+
+            <!-- 1. Language Toggle Button -->
+            <button id="language-toggle" aria-label="Change Language" onclick="toggleLanguage()">
+                <i data-lucide="globe"></i>
+                <span id="lang-code">AR</span>
+            </button>
+            
+            <!-- Header Decoration -->
+            <div class="header-decoration"></div>
+
+            <!-- 2. ENGLISH CONTENT (Default - LTR) -->
+            <div id="content-en" class="card-content">
+                <div class="bismillah">بسم الله الرحمن الرحيم</div>
+
+                <div class="message-body">
+                    It is with immense joy and gratitude to Allah that we invite you to join us in celebrating a very special day—marking the beginning of a beautiful new chapter.
+                </div>
+
+                <div class="message-body">
+                    Your presence will make this celebration even more memorable. Please feel welcome to join at any time during the day.
+                </div>
+
+                <!-- NAME BADGE CONTAINER - Fixed to Style 10 -->
+                <div id="name-badge-en" class="name-badge-container style-10">
+                    <span class="first-name">Mohamed</span>
+                    <span class="last-name">AGOUMI</span>
+                </div>
+
+                <div class="details-box">
+                    <div class="schedule-title">All-Day Celebration</div>
+
+                    <div style="text-align:center; margin-bottom:12px; font-size:15px; color:var(--text); font-weight:600; font-family: 'Montserrat', sans-serif;">
+                        Thursday, December 11th, 2025
+                    </div>
+
+                    <div class="schedule-explainer">
+                        The doors will remain open throughout the day, and your presence at any time will be a true honor.
+                    </div>
+
+                    <div class="time-slot">
+                        <span class="time-label">Lunch </span>
+                        <span style="font-family: 'Montserrat', sans-serif;">2:00 PM – 4:00 PM</span>
+                    </div>
+
+                    <div class="time-slot">
+                        <span class="time-label">Dinner </span>
+                        <span style="font-family: 'Montserrat', sans-serif;">8:00 PM – 10:00 PM</span>
+                    </div>
+
+                    <div style="text-align:center; font-size:13px; margin-top:12px; color:var(--muted); font-style:italic; font-family: 'Montserrat', sans-serif;">
+                        Everyone is welcome, at any time.
+                    </div>
+                </div>
+
+                <div class="location">
+                    <span class="location-title">Location</span>
+                    97 Lots Zaytoun Road, Rass-Elmae<br>
+                    Bensouda, FES
+                </div>
+            </div>
+
+            <!-- 3. ARABIC CONTENT (Hidden by default - RTL) -->
+            <div id="content-ar" class="card-content" style="display: none;">
+                <div class="bismillah">بسم الله الرحمن الرحيم</div>
+
+                <div class="message-body">
+                    بفرح كبير وامتنان لله سبحانه وتعالى ، نتشرف بدعوتكم للانضمام إلينا في الاحتفال بيوم مميز جداً، والذي يمثل بداية فصل جديد جميل في حياتنا.
+                </div>
+
+                <div class="message-body">
+                    حضوركم سيجعل هذا اليوم أكثر بهجة وروعة. الرجاء الشعور بالترحيب والانضمام في أي وقت يناسبكم خلال اليوم.
+                </div>
+
+                <!-- NAME BADGE CONTAINER - Fixed to Style 10 -->
+                <div id="name-badge-ar" class="name-badge-container style-10">
+                    <span class="first-name">محمد</span>
+                    <span class="last-name">أﯕومي</span>
+                </div>
+
+                <div class="details-box">
+                    <div class="schedule-title">الاحتفال طوال اليوم</div>
+
+                    <div style="text-align:center; margin-bottom:12px; font-size:17px; color:var(--text); font-weight:700; font-family: 'Amiri', serif;">
+                        الخميس، 11 ديسمبر 2025
+                    </div>
+
+                    <div class="schedule-explainer" style="font-family: 'Amiri', serif;">
+                        ستظل الأبواب مفتوحة طوال اليوم، وسيكون شرفاً لنا حضوركم في أي وقت.
+                    </div>
+
+                    <div class="time-slot">
+                        <span class="time-label"> الغداء</span>
+                        <span>2:00 – 4:00 مساءً</span>
+                    </div>
+
+                    <div class="time-slot">
+                        <span class="time-label"> العشاء</span>
+                        <span>8:00 – 10:00 مساءً</span>
+                    </div>
+
+                    <div style="text-align:center; font-size:14px; margin-top:12px; color:var(--muted); font-family: 'Amiri', serif;">
+                        الجميع مرحب بهم في أي وقت.
+                    </div>
+                </div>
+
+                <div class="location">
+                    <span class="location-title">الموقع</span>
+                    97 تجزئة الزيتون، طريق رأس الماء<br>
+                    بنسودة، فاس
+                </div>
+            </div>
+            
+            <!-- 4. SPANISH CONTENT (Hidden by default - LTR) -->
+            <div id="content-es" class="card-content" style="display: none;">
+                <div class="bismillah">بسم الله الرحمن الرحيم</div>
+
+                <div class="message-body">
+                    Con inmensa alegría y gratitud a Alá , les invitamos a unirse a nosotros para celebrar un día muy especial, que marca el comienzo de un hermoso nuevo capítulo.
+                </div>
+
+                <div class="message-body">
+                    Su presencia hará que esta celebración sea aún más memorable. Siéntanse bienvenidos de unirse en cualquier momento durante el día.
+                </div>
+
+                <!-- NAME BADGE CONTAINER - Fixed to Style 10 -->
+                <div id="name-badge-es" class="name-badge-container style-10">
+                    <span class="first-name">Mohamed</span>
+                    <span class="last-name">AGOUMI</span>
+                </div>
+
+                <div class="details-box">
+                    <div class="schedule-title">Celebración Todo el Día</div>
+
+                    <div style="text-align:center; margin-bottom:12px; font-size:15px; color:var(--text); font-weight:600; font-family: 'Montserrat', sans-serif;">
+                        Jueves, 11 de Diciembre de 2025
+                    </div>
+
+                    <div class="schedule-explainer">
+                        Las puertas permanecerán abiertas durante todo el día, y su presencia en cualquier momento será un verdadero honor.
+                    </div>
+
+                    <div class="time-slot">
+                        <span class="time-label"> Almuerzo</span>
+                        <span style="font-family: 'Montserrat', sans-serif;">2:00 PM – 4:00 PM</span>
+                    </div>
+
+                    <div class="time-slot">
+                        <span class="time-label"> Cena</span>
+                        <span style="font-family: 'Montserrat', sans-serif;">8:00 PM – 10:00 PM</span>
+                    </div>
+
+                    <div style="text-align:center; font-size:13px; margin-top:12px; color:var(--muted); font-style:italic; font-family: 'Montserrat', sans-serif;">
+                        Todos son bienvenidos, en cualquier momento.
+                    </div>
+                </div>
+
+                <div class="location">
+                    <span class="location-title">Ubicación</span>
+                    97 Lots Zaytoun Road, Rass-Elmae<br>
+                    Bensouda, FES
+                </div>
+            </div>
+
+            <!-- Footer Decoration -->
+            <div class="footer-decoration"></div>
+
+        </div>
+    </div>
+
+    <script>
+        // Initialisation des icônes Lucide
+        lucide.createIcons();
+        
+        function toggleLanguage() {
+            const html = document.documentElement;
+            const cardEn = document.getElementById('content-en');
+            const cardAr = document.getElementById('content-ar');
+            const cardEs = document.getElementById('content-es');
+            const langCodeSpan = document.getElementById('lang-code');
+            const currentLang = html.getAttribute('lang');
+
+            // Hide all content blocks first
+            cardEn.style.display = 'none';
+            cardAr.style.display = 'none';
+            cardEs.style.display = 'none';
+
+            if (currentLang === 'en') {
+                // EN -> AR
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                cardAr.style.display = 'block';
+                langCodeSpan.textContent = 'ES'; // Next language is Spanish
+            } else if (currentLang === 'ar') {
+                // AR -> ES
+                html.setAttribute('lang', 'es');
+                html.setAttribute('dir', 'ltr');
+                cardEs.style.display = 'block';
+                langCodeSpan.textContent = 'EN'; // Next language is English
+            } else if (currentLang === 'es') {
+                // ES -> EN (Cycle back to start)
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                cardEn.style.display = 'block';
+                langCodeSpan.textContent = 'AR'; // Next language is Arabic
+            } else {
+                // Default fallback: back to English
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                cardEn.style.display = 'block';
+                langCodeSpan.textContent = 'AR';
+            }
+        }
+        
+        // Initialisation par défaut: Définir l'Anglais (LTR) comme actif
+        window.onload = () => {
+            document.documentElement.setAttribute('lang', 'en');
+            document.documentElement.setAttribute('dir', 'ltr');
+            document.getElementById('content-en').style.display = 'block';
+            document.getElementById('content-ar').style.display = 'none';
+            document.getElementById('content-es').style.display = 'none';
+            document.getElementById('lang-code').textContent = 'AR'; 
+            
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
