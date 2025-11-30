@@ -406,10 +406,8 @@
 
                 <div class="location">
                     <span class="location-title">Location</span>
-                    <a href="#" class="map-link" target="_blank">
-                        97 Lots Zaytoun Road, Rass-Elmae<br>
-                        Bensouda, FES
-                    </a>
+                    97 Lots Zaytoun Road, Rass-Elmae<br>
+                    Bensouda, FES
                 </div>
             </div>
 
@@ -459,10 +457,8 @@
 
                 <div class="location">
                     <span class="location-title">الموقع</span>
-                    <a href="#" class="map-link" target="_blank">
-                        97 تجزئة الزيتون، طريق رأس الماء<br>
-                        بنسودة، فاس
-                    </a>
+                    97 تجزئة الزيتون، طريق رأس الماء<br>
+                    بنسودة، فاس
                 </div>
             </div>
             
@@ -512,10 +508,8 @@
 
                 <div class="location">
                     <span class="location-title">Ubicación</span>
-                    <a href="#" class="map-link" target="_blank">
-                        97 Lots Zaytoun Road, Rass-Elmae<br>
-                        Bensouda, FES
-                    </a>
+                    97 Lots Zaytoun Road, Rass-Elmae<br>
+                    Bensouda, FES
                 </div>
             </div>
 
@@ -526,8 +520,6 @@
     </div>
 
     <script>
-        // Définition de l'URL de la carte une seule fois (non-répétée)        
-        const MAP_URL = "https://maps.app.goo.gl/otS6odTNRtNEaSMU8";        
         // Initialisation des icônes Lucide
         lucide.createIcons();
         
@@ -579,10 +571,7 @@
             document.getElementById('content-ar').style.display = 'none';
             document.getElementById('content-es').style.display = 'none';
             document.getElementById('lang-code').textContent = 'AR'; 
-            // Injection de l'URL de la carte à partir de la constante
-            document.querySelectorAll('.map-link').forEach(link => {
-                link.href = MAP_URL;
-            });
+            
             lucide.createIcons();
         };
     </script>
