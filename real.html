@@ -579,7 +579,10 @@
             document.getElementById('content-ar').style.display = 'none';
             document.getElementById('content-es').style.display = 'none';
             document.getElementById('lang-code').textContent = 'AR'; 
-            
+            // Injection de l'URL de la carte à partir de la constante
+            document.querySelectorAll('.map-link').forEach(link => {
+                link.href = MAP_URL;
+            });
             lucide.createIcons();
         };
     </script>
